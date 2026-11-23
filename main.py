@@ -29,8 +29,13 @@ def main() -> None:
     assert is_one_sentence(LINE), "entry must be a single sentence"
     out_dir = os.environ.get("OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
-    with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as f:
+    path = os.path.join(out_dir, "entry.txt")
+    with open(path, "w", encoding="utf-8") as f:
         f.write(LINE + "\n")
+    # Read back what was written: the graded file must be exactly the
+    # validated line plus one trailing newline, nothing else.
+    with open(path, encoding="utf-8") as f:
+        assert f.read() == LINE + "\n", "entry.txt differs from LINE"
 
 
 if __name__ == "__main__":
